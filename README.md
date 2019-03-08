@@ -5,6 +5,6 @@ PlaSMo stands for Plant Systems-biology Modelling and the mission of the project
 
 PlaSMo data has been migrated to the FaridoHub platform: https://fairdomhub.org/projects/129 and this repository contains snapshot of the code from the last version of the PlaSMo portal.
 
-The portal implementation was "technologically outdated" so the code contained here for archiving purposes than re-use.
+The portal implementation was "technologically outdated" so the code contained here is rather for archiving purposes than re-use.
 
 PlaSmo portal is a typical Java Web Application build with Apache Struts2 and JSP.
