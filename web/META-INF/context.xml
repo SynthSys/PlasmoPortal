@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/plasmo">
+    
+    <Resource name="jdbc/plasmo"  url="jdbc:mysql://dbserver:3306/plasmo?rewriteBatchedStatements=true" 
+	password="password" username="plasmo"
+	type="javax.sql.DataSource" driverClassName="com.mysql.jdbc.Driver" override="false" auth="Container" 
+	maxTotal="25" maxWaitMillis="10000"
+	testOnBorrow="true" validationQuery="SELECT 1" validationQueryTimeout="100"
+        removeAbandoned="true" removeAbandonedTimeout="120" 
+    />
+
+</Context>

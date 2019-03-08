@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.2//EN" 
+"http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+<validators>
+
+  <field name="user.given">
+    <field-validator type="requiredstring">
+      <param name="trim">true</param>
+      <message>Please enter your first name</message>
+    </field-validator>
+    <field-validator type="stringlength">
+      <param name="maxLength">30</param>
+      <message>First name exceeds the maximum character length of 30</message>
+    </field-validator>
+  </field>
+  
+  <field name="user.family">
+    <field-validator type="requiredstring">
+      <param name="trim">true</param>
+      <message>Please enter your last name</message>
+    </field-validator>
+    <field-validator type="stringlength">
+      <param name="maxLength">30</param>
+      <message>Last name exceeds the maximum character length of 30</message>
+    </field-validator>
+  </field>
+  
+  <field name="user.email">
+    <field-validator type="requiredstring" short-circuit="true">
+      <param name="trim">true</param>
+      <message>Please enter your email address</message>
+    </field-validator>
+    <field-validator type="stringlength">
+      <param name="maxLength">80</param>
+      <message>Email address exceeds the maximum character length of 120</message>
+    </field-validator>
+    <field-validator type="email">
+      <message>The email address you have entered is not valid</message>
+    </field-validator>
+  </field>
+  
+  <field name="user.organisation">
+    <field-validator type="requiredstring">
+      <param name="trim">true</param>
+      <message>Please enter the name of your organisation</message>
+    </field-validator>
+    <field-validator type="stringlength">
+      <param name="maxLength">120</param>
+      <message>Organisation name exceeds the maximum character length of 120</message>
+    </field-validator>
+  </field>
+  
+  <field name="user.userName">
+    <field-validator type="requiredstring">
+      <param name="trim">true</param>
+      <message>Please enter a username</message>
+    </field-validator>
+    <field-validator type="stringlength">
+      <param name="minLength">4</param>
+      <param name="maxLength">15</param>
+      <message>Username length must be between 4 and 15 characters</message>
+    </field-validator>
+  </field>
+    
+  <field name="user.password">
+    <field-validator type="requiredstring">
+      <param name="trim">true</param>
+      <message>Please enter a password</message>
+    </field-validator>
+    <field-validator type="stringlength">
+      <param name="trim">true</param>
+      <param name="minLength">5</param>
+      <param name="maxLength">15</param>
+      <message>Password must be between 5 and 15 characters</message>
+    </field-validator>
+    <field-validator type="fieldexpression">
+      <param name="expression">user.password == user.confirmPassword</param>
+      <message>The passwords entered do not match</message>
+    </field-validator>
+  </field>
+  
+</validators>

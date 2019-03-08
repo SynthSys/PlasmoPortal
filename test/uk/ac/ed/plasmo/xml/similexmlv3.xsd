@@ -1,0 +1,1166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--xs:schema 
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+   xmlns:m="http://www.w3.org/1998/Math/MathML"
+   targetNamespace="http://www.simulistics.com"
+   xmlns="http://www.simulistics.com"-->
+<!--xs:schema
+   targetNamespace="http://www.simile.com"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   xmlns:m="http://www.w3.org/1998/Math/MathML"-->
+
+
+<!-- This link (http://www.w3.org/TR/xhtml1-schema/#schemas) shows 
+     how to incorporate the XHTML Schema -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:m="http://www.w3.org/1998/Math/MathML"
+    xmlns:htm="http://www.w3.org/1999/xhtml">
+<!--     <xs:import namespace="http://www.w3.org/1998/Math/MathML"
+        schemaLocation="mathml2.xsd"></xs:import>
+    <xs:import namespace="http://www.w3.org/1999/xhtml"
+        schemaLocation="xhtml1-strict.xsd"></xs:import>-->
+   <xs:import namespace="http://www.w3.org/1998/Math/MathML"
+        schemaLocation="http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd"></xs:import>
+    <xs:import namespace="http://www.w3.org/1999/xhtml"
+        schemaLocation="http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd"></xs:import>
+
+    <xs:annotation>
+        <xs:documentation> 
+        File name: SimileXMLv3.xsd 
+        Author: Robert Muetzelfeldt 
+        Description: XML Schema for SimileXMLv3, the Simile Markup Language, version 3. 
+        Change log: 7 Feb 2011 (layout and documentation only)
+                   15 Oct 2013 - bringing up-to-date
+        Copyright: 2011 Simulistics Ltd </xs:documentation>
+    </xs:annotation>
+
+
+
+
+    <xs:element name="model">
+        <xs:annotation>
+            <xs:documentation>
+            This is the top-level document element. I use 'choice' rather than
+            'sequence' since the various elements may be interspersed and occur in any order.
+            This technique, combined with maxOccurs="unbounded", is the poorly-documented method
+            for allowing multiple occurences of various elements to occur in arbitrary order.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element ref="source" minOccurs="1" maxOccurs="1"></xs:element>
+                <xs:element ref="roots" minOccurs="1" maxOccurs="1"></xs:element>
+                <xs:element ref="properties" minOccurs="1" maxOccurs="1"></xs:element>
+                <xs:element ref="references" minOccurs="0" maxOccurs="1"></xs:element>
+                <xs:element ref="node" minOccurs="1" maxOccurs="unbounded"></xs:element>
+                <xs:element ref="links" minOccurs="0" maxOccurs="unbounded"></xs:element>
+                <xs:element ref="arc" minOccurs="0" maxOccurs="unbounded"></xs:element>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+
+
+    <!-- Top-level model elements -->
+
+    <xs:element name="source">
+        <xs:annotation>
+            <xs:documentation>
+            This is the 'source' element, containing model metadata.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="program" minOccurs="1" maxOccurs="1"></xs:element>
+                <xs:element ref="version" minOccurs="1" maxOccurs="1"></xs:element>
+                <xs:element ref="edition" minOccurs="1" maxOccurs="1"></xs:element>
+                <xs:element ref="date" minOccurs="0" maxOccurs="1"></xs:element>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+
+
+
+    <xs:element name="roots">
+
+        <xs:annotation>
+            <xs:documentation>
+            This is the 'root' element, containing the node IDs for all top-level
+            nodes (including submodels).
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="subnode" minOccurs="0" maxOccurs="unbounded"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+
+    </xs:element>
+
+
+
+
+    <xs:element name="properties">
+
+        <xs:annotation>
+            <xs:documentation>
+            This is the 'properties' element, containing top-level
+            specifications. Need to check why 'units' and 'value' are here. I'm pretty sure it
+            was put in for a particular model (rather than just being copied from 'node'), but not sure
+            which one.
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="comment" minOccurs="0" maxOccurs="1"></xs:element>
+                <xs:element ref="complete" minOccurs="0" maxOccurs="1"></xs:element>
+                <xs:element ref="description" minOccurs="0" maxOccurs="1"></xs:element>
+                <xs:element ref="desc" minOccurs="0" maxOccurs="1"></xs:element>
+                <xs:element ref="enum_types" minOccurs="0"></xs:element>
+                <xs:element ref="external_code" minOccurs="0"></xs:element>
+                <xs:element ref="file_name" minOccurs="0" maxOccurs="1"></xs:element>
+                <xs:element ref="fill_colour" minOccurs="0"></xs:element>
+                <xs:element ref="fix_math_args" minOccurs="0"></xs:element>
+                <xs:element ref="image_posn" minOccurs="0"></xs:element>
+                <xs:element ref="max_val" minOccurs="0"></xs:element>
+                <xs:element ref="min_val" minOccurs="0"></xs:element>
+                <xs:element ref="multiplication_spec" minOccurs="0"></xs:element>
+                <xs:element ref="name" minOccurs="1" maxOccurs="1"></xs:element>
+                <xs:element ref="separate" minOccurs="0"></xs:element>
+                <xs:element ref="step" minOccurs="0"></xs:element>
+                <xs:element ref="units" minOccurs="0"></xs:element>
+                <xs:element ref="value" minOccurs="0"></xs:element>
+            </xs:all>
+        </xs:complexType>
+
+    </xs:element>
+
+
+
+    <xs:element name="references">
+
+        <xs:annotation>
+            <xs:documentation>
+            This is the 'references' element, containing top-level
+            specifications. Note that it contains an unbounded, unordered list of 'local',
+            'ancestor' and 'obsolete' elements, so we use the (poorly-documented) method of an
+            unbounded xs:choice element.
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element name="local" type="xs:string"></xs:element>
+                <xs:element name="ancestor" type="xs:integer"></xs:element>
+                <xs:element name="obsolete">
+                <!-- Question: How do you specify that this must be an empty element? 
+                     Answer: see http://www.herongyang.com/XML-Schema/complexType-Empty-Element-Declaration.html
+                     Thanks to Herong Yang for the solution! -->
+                    <xs:complexType>
+                        <xs:complexContent>
+                            <xs:restriction base="xs:anyType"/>
+                        </xs:complexContent>
+                    </xs:complexType>
+                </xs:element>
+            </xs:choice>
+            <xs:attribute name="submodel" type="xs:string"></xs:attribute>
+        </xs:complexType>
+
+    </xs:element>
+
+
+
+
+    <xs:element name="node">
+        <xs:annotation>
+            <xs:documentation>
+            This is the node element.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="subnodes" minOccurs="0" maxOccurs="1">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="subnode" minOccurs="0" maxOccurs="unbounded"
+                            ></xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="nodespecs" minOccurs="0" maxOccurs="1">
+                    <xs:complexType>
+                        <xs:all>
+                            <xs:element ref="comment" minOccurs="0"></xs:element>
+                            <xs:element ref="complete" minOccurs="0"></xs:element>
+                            <xs:element ref="description" minOccurs="0"></xs:element>
+                            <xs:element ref="enum_types" minOccurs="0"></xs:element>
+                            <xs:element ref="external_code" minOccurs="0"></xs:element>
+                            <xs:element ref="file_name" minOccurs="0"></xs:element>
+                            <xs:element ref="fill_colour" minOccurs="0"></xs:element>
+                            <xs:element ref="fill_image" minOccurs="0"></xs:element>
+                            <xs:element ref="fix_math_args" minOccurs="0"></xs:element>
+                            <xs:element ref="image_posn" minOccurs="0"></xs:element>
+                            <xs:element ref="max_val" minOccurs="0"></xs:element>
+                            <xs:element ref="min_val" minOccurs="0"></xs:element>
+                            <xs:element ref="multiplication_spec" minOccurs="0"></xs:element>
+                            <xs:element ref="name" minOccurs="0"></xs:element>
+                            <xs:element ref="param_type" minOccurs="0"></xs:element>
+                            <xs:element ref="separate" minOccurs="0"></xs:element>
+                            <xs:element ref="spec" minOccurs="0"></xs:element>
+                            <xs:element ref="step" minOccurs="0"></xs:element>
+                            <xs:element ref="table_data" minOccurs="0"></xs:element>
+                            <xs:element ref="units" minOccurs="0"></xs:element>
+                            <xs:element ref="value" minOccurs="0"></xs:element>
+                        </xs:all>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="nodegraphics" minOccurs="0" maxOccurs="1">
+                    <xs:complexType>
+                        <xs:all>
+                            <xs:element ref="along" minOccurs="0"></xs:element>
+                            <xs:element ref="bounding_box" minOccurs="0"></xs:element>
+                            <xs:element ref="caption_offset" minOccurs="0"></xs:element>
+                            <xs:element ref="centre" minOccurs="0"></xs:element>
+                            <xs:element ref="hide_contents" minOccurs="0"></xs:element>
+                            <xs:element ref="internal_extent" minOccurs="0"></xs:element>
+                        </xs:all>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:string"></xs:attribute>
+            <xs:attribute name="type">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="alarm"></xs:enumeration>
+                        <xs:enumeration value="border"></xs:enumeration>
+                        <xs:enumeration value="cloud"></xs:enumeration>
+                        <xs:enumeration value="compartment"></xs:enumeration>
+                        <xs:enumeration value="condition"></xs:enumeration>
+                        <xs:enumeration value="creation"></xs:enumeration>
+                        <xs:enumeration value="function"></xs:enumeration>
+                        <xs:enumeration value="immigration"></xs:enumeration>
+                        <xs:enumeration value="loss"></xs:enumeration>
+                        <xs:enumeration value="reproduction"></xs:enumeration>
+                        <xs:enumeration value="submodel"></xs:enumeration>
+                        <xs:enumeration value="text"></xs:enumeration>
+                        <xs:enumeration value="variable"></xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+
+
+
+    <xs:element name="links">
+
+        <xs:annotation>
+            <xs:documentation>
+            This is the 'links' element, which connects influence arrow segments
+            across a submodel boundary.
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="link" minOccurs="1" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:attribute name="arc1" type="xs:string"></xs:attribute>
+                        <xs:attribute name="arc2" type="xs:string"></xs:attribute>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="submodel" type="xs:string"></xs:attribute>
+        </xs:complexType>
+
+    </xs:element>
+
+
+
+
+    <xs:element name="arc">
+        <xs:annotation>
+            <xs:documentation>
+            This is the arc element.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="arcspecs" minOccurs="0" maxOccurs="1">
+                    <xs:complexType>
+                        <xs:all>
+                            <xs:element ref="attached" minOccurs="0"></xs:element>
+                            <xs:element ref="can_lookup" minOccurs="0"></xs:element>
+                            <xs:element ref="comment" minOccurs="0"></xs:element>
+                            <xs:element ref="complete" minOccurs="0"></xs:element>
+                            <xs:element ref="description" minOccurs="0"></xs:element>
+                            <xs:element ref="exclusive" minOccurs="0"></xs:element>
+                            <xs:element ref="ident" minOccurs="0"></xs:element>
+                            <xs:element ref="last_membership" minOccurs="0"></xs:element>
+                            <xs:element ref="name" minOccurs="0"></xs:element>
+                            <xs:element name="references" minOccurs="0">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="reference" minOccurs="0"
+                                            maxOccurs="unbounded" type="xs:string"></xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element ref="role" minOccurs="0"></xs:element>
+                            <xs:element ref="use_sofar" minOccurs="0"></xs:element>
+                        </xs:all>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="arcgraphics" minOccurs="0" maxOccurs="1">
+                    <xs:complexType>
+                        <xs:all>
+                            <xs:element ref="bowtie" minOccurs="0"></xs:element>
+                            <xs:element ref="caption_offset" minOccurs="0"></xs:element>
+                            <xs:element ref="course" minOccurs="0"></xs:element>
+                            <xs:element ref="curve" minOccurs="0"></xs:element>
+                        </xs:all>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:string"></xs:attribute>
+            <xs:attribute name="from" type="xs:string"></xs:attribute>
+            <xs:attribute name="to" type="xs:string"></xs:attribute>
+            <xs:attribute name="type">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="flow"></xs:enumeration>
+                        <xs:enumeration value="influence"></xs:enumeration>
+                        <xs:enumeration value="relation"></xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+
+
+
+
+    <!-- Attributes (for properties, nodes and arcs, both non-graphical and graphical), 
+         in alphabetical order.  -->
+
+
+    <xs:element name="attached">
+
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="subnode" minOccurs="0" maxOccurs="unbounded"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+
+    </xs:element>
+
+
+    <xs:element name="bounding_box">
+        <xs:annotation>
+            <xs:documentation>
+            This contains the top-left and bottom-right coordinates of the model
+            component.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="coords" type="coordsType" minOccurs="2" maxOccurs="2"
+                ></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+
+
+    <xs:element name="bowtie">
+        <xs:annotation>
+            <xs:documentation>
+            This contains the coordinate information for the 'bowtie' (valve)
+            symbol on flow arrows.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="coords" type="coordsType" minOccurs="2" maxOccurs="2"
+                ></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+
+
+    <xs:element name="can_lookup" type="xs:boolean">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="caption_offset">
+        <xs:annotation>
+            <xs:documentation>
+            This represents the x,y offset of the caption for model components.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="coords" type="coordsType" minOccurs="1" maxOccurs="1"></xs:element>
+                <xs:element name="position" type="xs:string" minOccurs="0" maxOccurs="1"
+                ></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+
+
+    <xs:element name="centre">
+        <xs:annotation>
+            <xs:documentation>
+            This represents the x,y coordinates defining the centre of a node.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="coords" type="coordsType" minOccurs="1" maxOccurs="1"
+                ></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+
+
+    <xs:element name="comment" type="xs:string">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="complete" type="xs:boolean">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="course">
+        <xs:annotation>
+            <xs:documentation>
+            This represents the x,y coordinates of the path taken by arcs.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="coords" type="coordsType" minOccurs="2" maxOccurs="4"
+                ></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+
+
+    <xs:element name="curve">
+        <xs:annotation>
+            <xs:documentation>
+            This represents the x,y coordinates of the path taken by arcs.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="coords" type="coordsType" minOccurs="1" maxOccurs="1"
+                ></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+
+
+
+    <xs:element name="date">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="day" type="xs:string" minOccurs="1" maxOccurs="1"></xs:element>
+                <xs:element name="month" type="xs:string" minOccurs="1" maxOccurs="1"></xs:element>
+                <xs:element name="day_number" type="xs:string" minOccurs="1" maxOccurs="1"></xs:element>
+                <xs:element name="hour" type="xs:string" minOccurs="1" maxOccurs="1"></xs:element>
+                <xs:element name="minute" type="xs:string" minOccurs="1" maxOccurs="1"></xs:element>
+                <xs:element name="second" type="xs:string" minOccurs="1" maxOccurs="1"></xs:element>
+                <xs:element name="time_zone" type="xs:string" minOccurs="1" maxOccurs="1"></xs:element>
+                <xs:element name="year" type="xs:string" minOccurs="1" maxOccurs="1"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+
+
+    <xs:element name="desc" type="xs:string">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="description" type="xs:string">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="edition" type="xs:string">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="enum_types">
+
+        <xs:annotation>
+            <xs:documentation>
+            This is a list of specifications for the enumerated types defined in the current
+            submodel (or at the top level).
+            Can occur only in submodel node elements, and the top-level model.
+            In Prolog, each spec is of the form Type-Members where Members is a list of
+            the values that make up the type. E.g. [fruit-[apple,pear,orange]].
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="enum_type" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="enum_value" minOccurs="0" maxOccurs="unbounded"
+                                type="xs:string"></xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="name" type="xs:string"></xs:attribute>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+
+    </xs:element>
+
+
+
+
+    <xs:element name="exclusive" type="xs:boolean">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="external_code">
+        <xs:annotation>
+            <xs:documentation>
+            Need to see what the formal range of possibilities is for this. From
+            the XSugar, seems like there could actually be several of these, so there should be
+            an intermediate element ('external_code_item'), with multiplicity 1...n.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="procedure" type="xs:string"></xs:element>
+                <xs:element name="include" type="xs:string"></xs:element>
+                <xs:element name="libraries" type="xs:string"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+
+
+    <xs:element name="file_name" type="xs:string">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="fill_colour" type="xs:string">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="fill_image" type="xs:string">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="fix_math_args" type="xs:boolean">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="along" type="xs:float">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+    <xs:element name="hide_contents" type="xs:boolean">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="ident" type="xs:boolean">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+
+    <xs:element name="image_posn">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="none"></xs:enumeration>
+                <xs:enumeration value="Tiled"></xs:enumeration>
+                <xs:enumeration value="Centred"></xs:enumeration>
+                <xs:enumeration value="Scaled"></xs:enumeration>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+
+
+
+
+    <xs:element name="internal_extent">
+        <xs:annotation>
+            <xs:documentation>
+            For submodels, this represents the top-left and bottom-right
+            coordinates of the submodel, setting the coordinate system for all model components
+            within the submodel. </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="coords" type="coordsType" minOccurs="2" maxOccurs="2"
+                ></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+
+
+    <xs:element name="last_membership" type="xs:boolean">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="max_val" type="xs:float">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="min_val" type="xs:float">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="multiplication_spec">
+
+        <xs:annotation>
+            <xs:documentation>
+            Indicates the multiplicity term for multiple-instance submodels and array
+            variables.
+            In Prolog terms, this is a list of terms Te, where each Te is either
+            'count=X' or 'type=Ty'. 
+
+            X is a list of terms D, where D is
+            - an integer constant, or
+            - an enumerated type constant, or
+            - an expression of the form 'size(S)', where S is the name of a submodel.
+            The number of Ds indicates the number of dimensions.  
+            
+            Ty is either 'records' or 'population'.
+
+            Although the spec is expressed in terms of a list of terms Te, it appears
+            that this is always a list of just one element, and we cannot think of a
+            case where it could have more than one element.
+
+            Valid examples (in Prolog syntax) are:
+            [count=[4]]
+            [count=[905,'"troll"']]
+            [count=[size(Patch)]]
+            [type=population]
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <!-- In practice, should only be 1 instance -->
+                <xs:element name="count" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:choice minOccurs="0" maxOccurs="unbounded">
+                            <xs:element name="dimension" type="xs:positiveInteger"></xs:element>
+                            <xs:element name="enumerated_type" type="xs:string"></xs:element>
+                            <xs:element name="size" type="xs:string"></xs:element>
+                        </xs:choice>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="type" minOccurs="0" maxOccurs="unbounded">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="population"></xs:enumeration>
+                            <xs:enumeration value="records"></xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+            </xs:choice>
+        </xs:complexType>
+
+    </xs:element>
+
+
+
+
+    <xs:element name="name" type="xs:string">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="param_type">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="file"></xs:enumeration>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+
+
+
+
+    <xs:element name="program" type="xs:string">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="role">
+
+        <xs:annotation>
+            <xs:documentation>
+            Influence arrows only. Further restricted to :
+            - influence arrows going into a function; or
+            - influence arrows going from one variable to another (?). 
+            In the latter case, the receiving variable is a parameter.
+
+            In Prolog terms, 'role' has the following form: 
+            A list of N terms T, where T has the form 'use(R,W,A,U)'. 
+
+            R is the role, either 'none' or a reference to
+            the role arrow the corresponding parameter in the destination node's
+            equation is associated with. 
+
+            W is which way the role arrow is going:
+            'in_hierarchy' if no role, 'in_base' if same direction as the influence,
+            'in_assoc' if other direction. 
+
+            A is a Simile quantity (e.g. variable, compartment, flow...), as it would appear
+            under 'Influences > Parameter' in the Equation dialogue window, i.e. as the
+            local name, decorated with [...] and/or {...} if it is a non-scalar. 
+
+            U is the units/dimension information for this quantity.
+
+            The Schema fragment below here does not fully capture the above data
+            model. The commented-out below is an attempt to handle this, but it
+            fails because the first two sub-elements (which_role_arc and which_way) are
+            defined twice. It is, according to Richard Tobin, not possible to specify
+            the required dependencies in XML Schema, though it should be possible in
+            RELAX NG.
+
+            9 Nov 2010 Added in more enumeration integer values for the 'role' element.   
+            Needs to be enumerated (rather than simply 'integer', because of the 'none' value.
+            Although usually there will be only two role arrows (numbered 0 and 1), we must allow for
+            possible higher values, since the number increments each time a role arrow is deleted then
+            re-added.
+            </xs:documentation>
+        </xs:annotation>
+
+
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="use" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="role">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="none"></xs:enumeration>
+                                        <xs:enumeration value="0"></xs:enumeration>
+                                        <xs:enumeration value="1"></xs:enumeration>
+                                        <xs:enumeration value="2"></xs:enumeration>
+                                        <xs:enumeration value="3"></xs:enumeration>
+                                        <xs:enumeration value="4"></xs:enumeration>
+                                        <xs:enumeration value="5"></xs:enumeration>
+                                        <xs:enumeration value="6"></xs:enumeration>
+                                        <xs:enumeration value="7"></xs:enumeration>
+                                        <xs:enumeration value="8"></xs:enumeration>
+                                        <xs:enumeration value="9"></xs:enumeration>
+                                        <xs:enumeration value="10"></xs:enumeration>
+                                        <xs:enumeration value="11"></xs:enumeration>
+                                        <xs:enumeration value="12"></xs:enumeration>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="way">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="in_hierarchy"></xs:enumeration>
+                                        <xs:enumeration value="in_base"></xs:enumeration>
+                                        <xs:enumeration value="in_assoc"></xs:enumeration>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+
+
+<!-- Element that can contain text or subelements
+http://stackoverflow.com/questions/381782/xml-schema-element-that-can-contain-elements-or-text/1805173#1805173
+<xs:element name="field">
+    <xs:complexType mixed="true">
+        <xs:sequence>
+                <xs:element ref="subfield" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" />
+    </xs:complexType>
+</xs:element>
+-->
+
+
+<!-- This was the earlier version (replaced Oct 2013)
+                            <xs:element name="local_name">
+                                <xs:annotation>
+                                    <xs:documentation> 
+                                    NOTE: In the XSugar, this is a 'possible
+                                    array or list'. I.e. it can be a scalar, a [....], or a
+                                    {....}. Treating it as a text string is not actually wrong,
+                                    but fails to represent the individual items. The XSugar and
+                                    the Schema need to be modified accordingly.
+                                    7 Feb 2011: ditto for SimileProlog_tofrom_SimileXMLv3.pl
+                                    </xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType>
+                                    <xs:choice>
+                                        <xs:element name="array" type="xs:string"></xs:element>
+                                        <xs:element name="text" type="xs:string"></xs:element>
+                                        <xs:element name="usr" type="xs:string"></xs:element>
+                                    </xs:choice>
+                                </xs:complexType>
+                            </xs:element>
+-->
+                            <xs:element name="local_name">
+                                <xs:annotation>
+                                    <xs:documentation> 
+                                    NOTE: In the XSugar, this is a 'possible
+                                    array or list'. I.e. it can be a scalar, a [....], or a
+                                    {....}. Treating it as a text string is not actually wrong,
+                                    but fails to represent the individual items. The XSugar and
+                                    the Schema need to be modified accordingly.
+                                    7 Feb 2011: ditto for SimileProlog_tofrom_SimileXMLv3.pl
+                                    </xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType mixed="true">
+                                    <xs:choice>
+                                        <xs:element ref="array" minOccurs="0" maxOccurs="1"></xs:element>
+                                        <xs:element ref="list" minOccurs="0" maxOccurs="1"></xs:element>
+                                        <xs:element name="text" type="xs:string"></xs:element>
+                                        <xs:element ref="usr" minOccurs="0"></xs:element>
+                                    </xs:choice>
+                                </xs:complexType>
+                            </xs:element>
+
+                            <xs:element name="units" minOccurs="0" maxOccurs="1">
+                                <xs:complexType mixed="true">
+                                    <xs:choice>
+                                        <xs:element ref="m:math"></xs:element>
+                                        <xs:element ref="array"></xs:element>
+                                        <xs:element ref="list"></xs:element>
+                                    </xs:choice>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+
+    </xs:element>
+
+
+
+
+    <xs:element name="separate">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="spec" type="xs:string">
+        <xs:annotation>
+            <xs:documentation>
+            This is the equation as entered by the modeller, including line breaks etc. 
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="step">
+        <xs:simpleType>
+            <xs:restriction base="xs:integer">
+                <xs:minInclusive value="-2"></xs:minInclusive>
+                <xs:maxInclusive value="7"></xs:maxInclusive>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+
+
+
+
+    <xs:element name="subnode" type="xs:string">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+
+
+    <xs:element name="table_data">
+        <xs:annotation>
+            <xs:documentation>
+            Holds table data...
+            Need to check on different usage scenarios: e.g. 'bounds' and 'array_bounds'.
+            Look at corresponding XSugar, with a view perhaps to treating the two usage
+            scenarios separately.
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="file" type="xs:string"></xs:element>
+                <xs:element name="data_list" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="data" minOccurs="0" maxOccurs="unbounded"
+                                type="xs:string"></xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="data_single" minOccurs="0" type="xs:string"></xs:element>
+                <xs:element name="indices">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="data" minOccurs="0" maxOccurs="unbounded"
+                                type="xs:string"></xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="current">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="data" minOccurs="0" maxOccurs="unbounded"
+                                type="xs:string"></xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="units" minOccurs="0" maxOccurs="1">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="m:math"></xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="bounds" type="xs:integer" minOccurs="0"></xs:element>
+                <xs:element name="dims" type="xs:string" minOccurs="0"></xs:element>
+                <xs:element name="array_bounds" type="xs:string" minOccurs="0"></xs:element>
+                <xs:element name="array_dims" type="xs:string" minOccurs="0"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+
+    </xs:element>
+
+
+
+
+    <xs:element name="units">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="m:math"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+
+
+    <xs:element name="use_sofar" type="xs:boolean">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+    <xs:element name="value">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="m:math"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+
+
+    <xs:element name="version" type="xs:string">
+        <xs:annotation>
+            <xs:documentation> </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+
+
+    <xs:element name="array">
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:element name="start" type="xs:string" minOccurs="0" ></xs:element>
+                <xs:element name="end" type="xs:string" minOccurs="0"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+
+
+    <xs:element name="list">
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:element ref="array" minOccurs="0" ></xs:element>
+                <xs:element name="start" type="xs:string" minOccurs="0" ></xs:element>
+                <xs:element name="end" type="xs:string" minOccurs="0"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="usr">
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:element ref="array" minOccurs="0" ></xs:element>
+                <xs:element ref="list" minOccurs="0" ></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+
+    <!-- Types -->
+    <!-- The following types are declared, to permit re-use in more than one place. -->
+    <!-- They are referenced by a 'type="xxxxType"' attribute in an <xs:element.../> line. -->
+
+    <xs:complexType name="coordsType">
+        <xs:annotation>
+            <xs:documentation>
+            Coordinates are represented as a 'coords' element containing an 'x'
+            and a 'y' attribute.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="x" type="xs:float"></xs:attribute>
+        <xs:attribute name="y" type="xs:float"></xs:attribute>
+    </xs:complexType>
+
+
+
+    <xs:simpleType name="noneType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="none"></xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+
+</xs:schema>

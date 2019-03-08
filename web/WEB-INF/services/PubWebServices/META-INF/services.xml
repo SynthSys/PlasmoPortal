@@ -1,0 +1,14 @@
+<service name="PubWebServices" scope="application"
+	targetNamespace="http://www.plasmo.ed.ac.uk/">
+	<description>
+		Public Plasmo Web Services
+    </description>
+	<messageReceivers>
+		<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only"
+			class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
+		<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-out"
+			class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+	</messageReceivers>
+	<schema schemaNamespace="http://www.plasmo.ed.ac.uk/xsd" />
+	<parameter name="ServiceClass">uk.ac.ed.plasmo.service.PublicWebServices</parameter>
+</service>

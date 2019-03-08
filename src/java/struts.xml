@@ -1,0 +1,432 @@
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.action.extension" value="shtml" />
+	<!-- <constant name="struts.devMode" value="true" /> -->
+	<constant name="struts.xslt.nocache" value="true"></constant>
+	<constant name="struts.multipart.maxSize" value="15728640"/>
+	
+	<package namespace="/delete" name="model" extends="struts-default">
+	  <action name="model" class="uk.ac.ed.plasmo.action.DeleteModel">
+	    <result name="no_model">/jsp/model_not_found.jsp</result>
+	    <!--<result name="input">/jsp/all_models.jsp</result>-->
+	    <result name="input">/jsp/confirm_delete.jsp</result>
+	    <result name="unauthorised">/jsp/security.jsp</result>
+	    <result type="chain">
+	      <param name="namespace">/models</param>
+	      <param name="actionName">all</param>
+	    </result>
+	  </action>
+	</package>
+	
+        <!--
+	<package namespace="/users" name="users" extends="struts-default">
+	
+	  <interceptors>
+	  
+	    <interceptor name="cacheHeadersInterceptor" class="uk.ac.ed.plasmo.interceptor.CacheHeadersInterceptor" />
+	    
+	    <interceptor-stack name="defaultSecurityStack">
+	      <interceptor-ref name="defaultStack" />
+	      <interceptor-ref name="cacheHeadersInterceptor"></interceptor-ref>
+	    </interceptor-stack>
+	    
+	  </interceptors>
+	  
+	  <default-interceptor-ref name="defaultSecurityStack" />
+	  
+	  <action name="user" class="uk.ac.ed.plasmo.action.DisplayUserInfo">
+	    <result>/jsp/user.jsp</result>
+	  </action>
+	
+	</package>-->
+	
+	<!-- package containing all edit-based functionality of the application -->
+	<package namespace="/edit" name="edit" extends="struts-default">
+	
+	  <interceptors>
+	  
+	    <interceptor name="cacheHeadersInterceptor" class="uk.ac.ed.plasmo.interceptor.CacheHeadersInterceptor" />
+	    
+	    <interceptor-stack name="defaultSecurityStack">
+	      <interceptor-ref name="defaultStack" />
+	      <interceptor-ref name="cacheHeadersInterceptor"></interceptor-ref>
+	    </interceptor-stack>
+	    
+	  </interceptors>
+	  
+	  <default-interceptor-ref name="defaultSecurityStack" />
+	
+	  <action name="version" class="uk.ac.ed.plasmo.action.EditModelVersionDisplay">
+	    <result name="no_model">/jsp/model_not_found.jsp</result>
+	    <result name="unauthorised">/jsp/security.jsp</result>
+	    <result>/jsp/edit_model_version.jsp</result>
+	  </action>
+	  
+	  <action name="update_model_owner" class="uk.ac.ed.plasmo.action.UpdateOwnership">
+	    <result name="no_model">/jsp/model_not_found.jsp</result>
+	    <result name="unauthorised">/jsp/security.jsp</result>
+	    <result type="redirectAction">
+	      <param name="namespace">/models</param>
+	      <param name="actionName">model</param>
+	      <param name="accession">${accession}</param>
+	      <param name="msg">ownership of this model has been updated</param>
+	    </result>
+	  </action>
+	  
+	  <action name="submit_version_edit" class="uk.ac.ed.plasmo.action.EditModelVersion">
+	    <result name="input">/jsp/edit_model_version.jsp</result>
+	    <result name="no_model">/jsp/model_not_found.jsp</result>
+	    <result name="unauthorised">/jsp/security.jsp</result>
+	    <result name="no_change" type="redirectAction">
+	      <param name="namespace">/models</param>
+	      <param name="actionName">model</param>
+	      <param name="accession">${accession}</param>
+	    </result>
+	    <!--<result type="redirectAction">
+	      <param name="namespace">/models</param>
+	      <param name="actionName">model</param>
+	      <param name="accession">${accession}</param>
+	      <param name="version">${version}</param>
+	      <param name="msg">version ${version} successfully modified</param>
+	    </result>-->
+	    <result type="chain">
+	      <param name="namespace">/models</param>
+	      <param name="actionName">model</param>
+	    </result>
+	  </action>
+
+	  <action name="publications" class="uk.ac.ed.plasmo.action.EditModelPublications">
+	    <result name="no_model">/jsp/model_not_found.jsp</result>
+	    <result name="unauthorised">/jsp/security.jsp</result>
+	    <result>/jsp/edit_model_publications.jsp</result>
+	  </action>
+          
+	  <action name="publication" class="uk.ac.ed.plasmo.action.EditPublication">
+	    <result name="no_model">/jsp/model_not_found.jsp</result>
+	    <result name="unauthorised">/jsp/security.jsp</result>
+	    <result>/jsp/edit_publication.jsp</result>
+	  </action>
+          
+	  <action name="submit_publication_edit" class="uk.ac.ed.plasmo.action.SavePublication">
+	    <result name="input">/jsp/edit_publication.jsp</result>
+	    <result name="no_model">/jsp/model_not_found.jsp</result>
+	    <result name="unauthorised">/jsp/security.jsp</result>
+	    <result type="chain">
+	      <param name="namespace">/edit</param>
+	      <param name="actionName">publications</param>
+	    </result>
+	  </action>
+          
+	  <action name="import_publication" class="uk.ac.ed.plasmo.action.ImportPublication">
+	    <result name="input">/jsp/import_publication.jsp</result>
+	    <result name="no_model">/jsp/model_not_found.jsp</result>
+	    <result name="unauthorised">/jsp/security.jsp</result>
+	    <result type="chain">
+	      <param name="namespace">/edit</param>
+	      <param name="actionName">publications</param>
+	    </result>
+	  </action>
+          
+          	
+	  <action name="RemovePublication" class="uk.ac.ed.plasmo.action.RemovePublication">
+	    <result name="input">/jsp/edit_publication.jsp</result>
+	    <result name="no_model">/jsp/model_not_found.jsp</result>
+	    <result name="unauthorised">/jsp/security.jsp</result>
+	    <result type="chain">
+	      <param name="namespace">/edit</param>
+	      <param name="actionName">publications</param>
+	    </result>
+	  </action>
+                    
+	  <action name="model" class="uk.ac.ed.plasmo.action.EditModelDisplay">
+	    <result name="no_model">/jsp/model_not_found.jsp</result>
+	    <result name="unauthorised">/jsp/security.jsp</result>
+	    <result>/jsp/edit_model.jsp</result>
+	  </action>
+	  
+	  <action name="submit_model_edit" class="uk.ac.ed.plasmo.action.EditModel">
+	    <result name="input">/jsp/edit_model.jsp</result>
+	    <result name="no_model">/jsp/model_not_found.jsp</result>
+	    <result name="unauthorised">/jsp/security.jsp</result>
+	    <!--<result type="redirectAction">
+	      <param name="namespace">/models</param>
+	      <param name="actionName">model</param>
+	      <param name="accession">${accession}</param>
+	      <param name="msg">model successfully modified</param>
+	    </result>-->
+	    <result type="chain">
+	      <param name="namespace">/models</param>
+	      <param name="actionName">model</param>
+	    </result>
+	  </action>
+	  
+	  <action name="comments" class="uk.ac.ed.plasmo.action.SubmitModelComment">
+	    <result name="ajax">/jsp/includes/model_comments.jsp</result>
+	    <result name="no_model">/jsp/model_not_found.jsp</result>
+	    <!--<result type="redirectAction">
+	      <param name="namespace">/models</param>
+	      <param name="actionName">model</param>
+	      <param name="accession">${accession}</param>
+	    </result>-->
+	    <result type="chain">
+	      <param name="namespace">/models</param>
+	      <param name="actionName">model</param>
+	    </result>
+	  </action>
+	  
+	</package>
+	
+	<package namespace="/new" name="new" extends="struts-default">
+	  
+	  <interceptors>
+	  
+	    <interceptor name="cacheHeadersInterceptor" class="uk.ac.ed.plasmo.interceptor.CacheHeadersInterceptor" />
+	    
+	    <interceptor-stack name="defaultSecurityStack">
+	      <interceptor-ref name="defaultStack" />
+	      <interceptor-ref name="cacheHeadersInterceptor"></interceptor-ref>
+	    </interceptor-stack>
+	    
+	  </interceptors>
+	  
+	  <default-interceptor-ref name="defaultSecurityStack" />
+	  
+	  <action name="password">
+	    <result>/jsp/edit_user_password.jsp</result>
+	  </action>
+	  
+	  <action name="save_password" class="uk.ac.ed.plasmo.action.SavePassword">
+	    <result name="input">/jsp/edit_user_password.jsp</result>
+	    <!--<result type="redirectAction">
+	      <param name="namespace">/models</param>
+	      <param name="actionName">all</param>
+	      <param name="msg">password successfully changed</param>
+	    </result>-->
+	    <result type="chain">
+	      <param name="namespace">/models</param>
+	      <param name="actionName">all</param>
+	    </result>
+	  </action>
+	
+	  <!--<action name="format">
+	    <result>/jsp/new_format.jsp</result>
+	  </action>
+	  
+	  <action name="submit_format" class="uk.ac.ed.plasmo.action.AddModelFormat">
+	    <result name="input">/jsp/new_format.jsp</result>
+	    <result>/jsp/new_format_success.jsp</result>
+	  </action>-->
+	  
+	  <action name="model" class="uk.ac.ed.plasmo.action.NewModelDisplay">
+	    <result>/jsp/new_model.jsp</result>
+	  </action>
+	  
+	  <action name="submit_model" class="uk.ac.ed.plasmo.action.UploadModel">
+	    <result name="input">/jsp/new_model.jsp</result>
+	    <result>/jsp/new_model.jsp</result>
+	  </action>
+	  
+	  <action name="submit_model_data" class="uk.ac.ed.plasmo.action.UploadModelMetadata">
+	    <result name="input">/jsp/new_model.jsp</result>
+	    <!--<result type="redirectAction">
+	      <param name="namespace">/models</param>
+	      <param name="actionName">model</param>
+	      <param name="accession">${submission.accession}</param>
+	      <param name="msg">new model successfully submitted</param>
+	    </result>-->
+	    <result type="chain">
+	      <param name="namespace">/models</param>
+	      <param name="actionName">model</param>
+	    </result>
+	  </action>	  
+	  
+	  <action name="model_transform">
+	    <result>/jsp/new_xslt.jsp</result>
+	  </action>
+	  
+	  <action name="version" class="uk.ac.ed.plasmo.action.CreateNewVersionDisplay">
+	    <result name="no_model">/jsp/model_not_found.jsp</result>
+	    <result name="unauthorised">/jsp/security.jsp</result>
+	    <result>/jsp/new_model_version.jsp</result>
+	  </action>
+	  
+	  <action name="submit_version" class="uk.ac.ed.plasmo.action.SubmitNewModelVersion">
+	    <result name="input">/jsp/new_model_version.jsp</result>
+	    <result name="no_model">/jsp/model_not_found.jsp</result>
+	    <result name="unauthorised">/jsp/security.jsp</result>
+	    <!--<result type="redirectAction">
+	      <param name="namespace">/models</param>
+	      <param name="actionName">model</param>
+	      <param name="accession">${accession}</param>
+	      <param name="msg">new version successfully submitted</param>
+	    </result>-->
+	    <result type="chain">
+	      <param name="namespace">/models</param>
+	      <param name="actionName">model</param>
+	    </result>
+	  </action>
+	
+	</package>
+	
+	<package namespace="/models" name="models" extends="struts-default">
+	
+	  <interceptors>
+	  
+	    <interceptor name="cacheHeadersInterceptor" class="uk.ac.ed.plasmo.interceptor.CacheHeadersInterceptor" />
+	    
+	    <interceptor-stack name="defaultSecurityStack">
+	      <interceptor-ref name="defaultStack" />
+	      <interceptor-ref name="cacheHeadersInterceptor"></interceptor-ref>
+	    </interceptor-stack>
+	    
+	  </interceptors>
+	  
+	  <default-interceptor-ref name="defaultSecurityStack" />
+	
+	  <action name="all" class="uk.ac.ed.plasmo.action.DisplayModels"> 
+	    <result name="input">/jsp/all_models.jsp</result>
+	    <result>/jsp/all_models.jsp</result>
+	  </action>
+	  
+	  <action name="all_rpp" class="uk.ac.ed.plasmo.action.DisplayModels" method="setResPerPageValue">
+	    <result name="input">/jsp/all_models.jsp</result>
+	    <result>/jsp/all_models.jsp</result>
+	  </action>
+	  
+	  <action name="download" class="uk.ac.ed.plasmo.action.DownloadModel">
+	    <result name="success" type="stream">
+	      <param name="contentType">text/xml</param>
+	      <param name="inputName">inputStream</param>
+	      <param name="contentDisposition">attachment; filename="${accession}.xml"</param>
+	    </result>
+	    <result name="input">/jsp/model_not_found.jsp</result>
+	    <result name="no_model">/jsp/model_not_found.jsp</result>
+	  </action>
+	  
+	  <action name="model" class="uk.ac.ed.plasmo.action.DisplayModel">
+	    <result name="input">/jsp/model_not_found.jsp</result>
+	    <result name="no_model">/jsp/model_not_found.jsp</result>
+	    <result>/jsp/model.jsp</result>
+	  </action>
+	  
+	  <action name="modify_model_group_permission" class="uk.ac.ed.plasmo.action.ModifyModelGroupPermission">
+	  <result name="input">/jsp/model_overview.jsp</result>
+	    <result>/jsp/model.jsp</result>
+	  </action>
+	  
+	  <action name="transform" class="uk.ac.ed.plasmo.action.TransformModel">
+	    <result name="input">/jsp/model_not_found.jsp</result>
+	  </action>
+          
+	  <action name="migrate" class="uk.ac.ed.plasmo.action.MigrateDB2ModelsToMySQL">
+	    <result>/jsp/migration.jsp</result>
+	    <result name="error">/jsp/migration.jsp</result>
+	  </action>
+          
+	  
+	</package>
+	
+	<package namespace="/" name="search" extends="struts-default">
+	
+	  <interceptors>
+	  
+	    <interceptor name="cacheHeadersInterceptor" class="uk.ac.ed.plasmo.interceptor.CacheHeadersInterceptor" />
+	    
+	    <interceptor-stack name="defaultSecurityStack">
+	      <interceptor-ref name="defaultStack" />
+	      <interceptor-ref name="cacheHeadersInterceptor"></interceptor-ref>
+	    </interceptor-stack>
+	    
+	  </interceptors>
+	  
+	  <default-interceptor-ref name="defaultSecurityStack" />
+	  
+	  <action name="search" class="uk.ac.ed.plasmo.action.Search" method="getModels">
+	    <result name="input">/jsp/search.jsp</result>
+	    <result>/jsp/search.jsp</result>
+	  </action>
+	  
+	  <action name="search_rpp" class="uk.ac.ed.plasmo.action.Search" method="setResPerPageValue">
+	    <result name="input">/jsp/search.jsp</result>
+	    <result>/jsp/search.jsp</result>
+	  </action>
+	
+	</package>
+	
+	<package namespace="/login" name="login" extends="struts-default">
+	
+	  <action name="forgot_password">
+	    <result>/jsp/forgot_password.jsp</result>
+	  </action>
+	  
+	  <action name="reset_password_request" class="uk.ac.ed.plasmo.action.ResetPasswordRequest">
+	    <result name="input">/jsp/forgot_password.jsp</result>
+	    <result>/jsp/forgot_password.jsp</result>
+	  </action>
+	  
+	  <action name="reset_password" class="uk.ac.ed.plasmo.action.ResetPassword">
+	    <!--<result name="input" type="redirectAction">
+	      <param name="namespace">/login</param>
+	      <param name="actionName">user_login</param>
+	      <param name="errorMsg">Invalid password reset id</param>
+	    </result>-->
+	    <result name="input" type="chain">
+	      <param name="namespace">/login</param>
+	      <param name="actionName">user_login</param>
+	    </result>
+	    <result type="redirectAction">
+	      <param name="namespace">/new</param>
+	      <param name="actionName">password</param>
+	    </result>
+	  </action>
+	
+	  <!--<action name="activate" class="uk.ac.ed.plasmo.action.ActivateUserAccount">
+	    <result name="input">/jsp/login.jsp</result>
+	    <result>/jsp/login_success.jsp</result>
+	  </action>
+	
+	  <action name="new_user">
+	    <result>/jsp/new_user.jsp</result>
+	  </action>
+	  
+	  <action name="create_new_user" class="uk.ac.ed.plasmo.action.CreateNewUser">
+	    <result name="input">/jsp/new_user.jsp</result>
+	    <result>/jsp/new_user_success.jsp</result>
+	  </action>-->
+	
+	  <action name="user_login">
+	    <result>/jsp/login.jsp</result>
+	  </action>
+	  
+	  <action name="process_login" class="uk.ac.ed.plasmo.action.LoginAction">
+	    <result name="input">/jsp/login.jsp</result>
+	    <result>/jsp/login_success.jsp</result>
+	  </action>
+	  
+	  <action name="login_success">
+	    <result>/jsp/login_success.jsp</result>
+	  </action>
+	  
+	  <action name="logout" class="uk.ac.ed.plasmo.action.LogoutAction">
+	    <result type="chain">
+	      <param name="namespace">/models</param>
+	      <param name="actionName">all</param>
+	    </result>
+	  </action>
+	  
+	</package>
+	
+	<package namespace="/pages" name="pages" extends="struts-default">
+	
+	  <action name="show_page" class="uk.ac.ed.plasmo.action.DisplayStaticPage">
+	    <result>/jsp/page.jsp</result>
+	  </action>
+	
+	</package>
+
+</struts>
